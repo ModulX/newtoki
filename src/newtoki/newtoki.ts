@@ -14,18 +14,18 @@ import {
 } from 'paperback-extensions-common'
 
 import {Parser} from './NewTokiParser'
-const NewToki_Base = 'https://onepiecechapters.com'
+const NewToki_Base = 'https://newtoki143.com'
 
 export const TCBScansInfo: SourceInfo = {
     author: 'SATAN',
-    description: 'Extension that pulls manga from onepiecechapters.com',
+    description: 'Extension that pulls webtoon from NewToki',
     icon: 'icon.png',
-    name: 'TCB Scans',
-    version: '1.0.3',
+    name: 'NewToki',
+    version: '1.0.0',
     authorWebsite: 'https://github.com/ModulX',
     websiteBaseURL: NewToki_Base,
     contentRating: ContentRating.EVERYONE,
-    language: LanguageCode.ENGLISH,
+    language: LanguageCode.KOREAN,
 }
 
 export class TCBScans extends Source {
