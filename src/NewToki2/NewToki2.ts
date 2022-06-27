@@ -12,18 +12,15 @@ import {
     Request,
     Response,
     TagSection,
-    TagType
+    TagType,
+    MangaStatus,
+    // FormRow
 } from 'paperback-extensions-common'
+import { contentSettings } from './NewToki2Settings'
 
-import {
-    contentSettings,
-    getLanguages
-} from './NewToki2Settings'
-
-import { Parser } from './NewToki2Parser'
 
 const WEBTOONS_DOMAIN = 'https://www.webtoons.com'
-const WEBTOONS_MOBILE_DOMAIN = 'https://m.webtoons.com'
+// const WEBTOONS_MOBILE_DOMAIN = 'https://m.webtoons.com'
 const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.124 Safari/537.36 Edg/102.0.1245.44'
 let langString = 'en' // Only used for 'getMangaShareUrl' function
 
@@ -46,7 +43,6 @@ export const WebtoonsInfo: SourceInfo = {
 
 export class NewToki2 extends Source {
 
-    parser = new Parser()
 
     stateManager = createSourceStateManager({})
 
@@ -88,111 +84,36 @@ export class NewToki2 extends Source {
     }
 
     override async getMangaDetails(mangaId: string): Promise<Manga> {
-        const lang = await getLanguages(this.stateManager)
-        langString = lang[0] ?? 'en' // This variable is only to be used in the "getMangaShareUrl" function.
-
-        const request = createRequestObject({
-            url: `${WEBTOONS_MOBILE_DOMAIN}/${lang[0]}/${mangaId}`,
-            method: 'GET'
-        })
-
-        const response = await this.requestManager.schedule(request, 3)
-        const $ = this.cheerio.load(response.data)
-        return this.parser.parseMangaDetails($, mangaId)
+        return {
+            titles: ["NewToki"],
+            image: "https://www.webtoons.com/images/common/noImage_l.png",
+            status: MangaStatus.COMPLETED,
+        }
     }
 
     override async getChapters(mangaId: string): Promise<Chapter[]> {
-        const lang = await getLanguages(this.stateManager)
-
-        const request = createRequestObject({
-            url: `${WEBTOONS_MOBILE_DOMAIN}/${lang[0]}/${mangaId}`,
-            method: 'GET'
-        })
-
-        const response = await this.requestManager.schedule(request, 3)
-        const $ = this.cheerio.load(response.data)
-        return this.parser.parseChapters($, mangaId, lang[0] ?? 'en')
+        return []
     }
 
     override async getChapterDetails(mangaId: string, chapterId: string): Promise<ChapterDetails> {
-        const lang = await getLanguages(this.stateManager)
-        const newId = mangaId.replace('list', `ep${chapterId}/viewer`)
-
-        const request = createRequestObject({
-            url: `${WEBTOONS_DOMAIN}/${lang[0]}/${newId}&episode_no=${chapterId}`,
-            method: 'GET',
-        })
-
-        const response = await this.requestManager.schedule(request, 3)
-        const $ = this.cheerio.load(response.data)
-        return this.parser.parseChapterDetails($, mangaId, chapterId)
+        return {
+            id: chapterId,
+            mangaId: mangaId,
+            pages: [],
+            longStrip: false,
+        }
     }
 
     override async getSearchResults(query: SearchRequest, metadata: any): Promise<PagedResults> {
-        const lang = await getLanguages(this.stateManager)
-        let page = metadata?.page ?? 1
-        if (page == -1) return createPagedResults({ results: [], metadata: { page: -1 } })
-
-        let request
-        let type = 'title'
-        let tagSearch
-
-        if (query.title) {
-            const searchType = query?.includedTags?.map((x: any) => x.id)[0] ?? 'WEBTOON' // Search will return "Canvas" titles or "Original" titles. Original is default. Cannot return both.
-            tagSearch = searchType
-            request = createRequestObject({
-                url: `${WEBTOONS_DOMAIN}/${lang[0]}/search?keyword=${(query.title ?? '').replace(/ /g, '+')}&searchType=${searchType}&page=${page}`,
-                method: 'GET'
-            })
-
-        } else {
-            const hasTag = query?.includedTags?.map((x: any) => x.id)[0]
-            if (hasTag) {
-                type = 'tag'
-                tagSearch = hasTag
-            }
-            request = createRequestObject({
-                url: `${WEBTOONS_DOMAIN}/${lang[0]}/genre`,
-                method: 'GET'
-            })
+        return {
+            results: [],
         }
-
-        const data = await this.requestManager.schedule(request, 3)
-        const $ = this.cheerio.load(data.data)
-        const manga = this.parser.parseSearchResults($, lang[0], type, tagSearch ?? '')
-
-        page++
-        if (manga.length < 18) page = -1
-
-        return createPagedResults({
-            results: manga,
-            metadata: { page: page },
-        })
     }
 
     override async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
-        const lang = await getLanguages(this.stateManager)
-
-        const request = createRequestObject({
-            url: `${WEBTOONS_DOMAIN}/${lang[0]}/top`,
-            method: 'GET'
-        })
-
-        const response = await this.requestManager.schedule(request, 1)
-        const $ = this.cheerio.load(response.data)
-        return this.parser.parseHomeSections($, sectionCallback, lang[0])
     }
 
     override async getTags(): Promise<TagSection[]> {
-        const lang = await getLanguages(this.stateManager)
-
-        const request = createRequestObject({
-            url: `${WEBTOONS_DOMAIN}/${lang[0]}/genre`,
-            method: 'GET'
-        })
-
-        const response = await this.requestManager.schedule(request, 3)
-        const $ = this.cheerio.load(response.data)
-        return this.parser.parseTags($)
+        return []
     }
 }
