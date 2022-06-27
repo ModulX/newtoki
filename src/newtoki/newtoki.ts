@@ -1,67 +1,105 @@
-import { Source, Manga, MangaStatus, Chapter, ChapterDetails, HomeSectionRequest, HomeSection, MangaTile, SearchRequest, LanguageCode, TagSection, Request, MangaUpdates, SourceTag, TagType, PagedResults } from "paperback-extensions-common"
-const SOURCE_DOMAIN = "https://newtoki143.com"
+import {
+    PagedResults,
+    Source,
+    Manga,
+    Chapter,
+    ChapterDetails,
+    HomeSection,
+    SearchRequest,
+    SourceInfo,
+    ContentRating,
+    LanguageCode,
+    Request,
+    Response,
+} from 'paperback-extensions-common'
 
-export class newtoki extends Source {
-    constructor(cheerio: CheerioAPI) {
-        super(cheerio)
-    }
+import {Parser} from './NewTokiParser'
+const NewToki_Base = 'https://onepiecechapters.com'
 
-    get version(): string { return '0.1.0' }
-    get name(): string { return 'newtoki' }
-    get description(): string { return 'newtoki korean source' }
-    get author(): string { return 'SATAN' }
-    get authorWebsite(): string { return '' }
-    get icon(): string { return "logo.png" }
-    get hentaiSource(): boolean { return false }
-    get sourceTags(): SourceTag[] { return [] }
-    get rateLimit(): Number {
-      return 2
-    }
-    get websiteBaseURL(): string { return SOURCE_DOMAIN }
+export const TCBScansInfo: SourceInfo = {
+    author: 'SATAN',
+    description: 'Extension that pulls manga from onepiecechapters.com',
+    icon: 'icon.png',
+    name: 'TCB Scans',
+    version: '1.0.3',
+    authorWebsite: 'https://github.com/ModulX',
+    websiteBaseURL: NewToki_Base,
+    contentRating: ContentRating.EVERYONE,
+    language: LanguageCode.ENGLISH,
+}
 
-    /**
-     * This method has been provided to you as it's probably rather rare that it ever needs to be changed
-     * even on different sources.
-     * This Method should point to the URL of a specific manga object on your source. Make sure to change
-     * line 33 so that it points to your manga! In this case, 'id' is the manga identifier
-     */
-    getMangaDetailsRequest(ids: string[]): Request[] {
-      let requests: Request[] = []
-      for (let id of ids) {
-        let metadata = { 'id': id }
-        requests.push(createRequestObject({
-          url: `${SOURCE_DOMAIN}/${id}`,
-          metadata: metadata,
-          method: 'GET'
-        }))
-      }
-      return requests
-    }
-    
-    getMangaDetails(data: any, metadata: any): Manga[] {
-      let manga: Manga[] = []                           // For your getMangaDetailsRequest URL request, fill this object out with each manga
-      let $ = this.cheerio.load(data)                   // CheerioJS has been loaded with the HTML response, use this to fill out your objects
+export class TCBScans extends Source {
+    private readonly parser: Parser = new Parser()
 
-      // manga.push(createManga({...}))                 For each object, ALWAYS wrap it in the create tag. createManga({..}), createIconText({...}), etc
-      throw new Error("Method not implemented.")
-    }
-    getChaptersRequest(mangaId: string): Request {
-      throw new Error("Method not implemented.")
-    }
-    getChapters(data: any, metadata: any): Chapter[] {
-      throw new Error("Method not implemented.")
-    }
-    getChapterDetailsRequest(mangaId: string, chapId: string): Request {
-      throw new Error("Method not implemented.")
-    }
-    getChapterDetails(data: any, metadata: any): ChapterDetails {
-      throw new Error("Method not implemented.")
-    }
-    searchRequest(query: SearchRequest): Request {
-      throw new Error("Method not implemented.")
-    }
-    search(data: any, metadata: any): PagedResults {
-      throw new Error("Method not implemented.")
+    readonly requestManager = createRequestManager({
+        requestsPerSecond: 3,
+        requestTimeout: 15000,
+        interceptor: {
+            interceptRequest: async (request: Request): Promise<Request> => {
+
+                request.headers = {
+                    ...(request.headers ?? {}),
+                    ...{
+                        'referer': NewToki_Base
+                    }
+                }
+
+                return request
+            },
+
+            interceptResponse: async (response: Response): Promise<Response> => {
+                return response
+            }
+        }
+    })
+    override getMangaShareUrl(mangaId: string): string {
+        return `${NewToki_Base}/mangas/${mangaId}`
     }
 
+    override async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
+        const options = createRequestObject({
+            url: `${NewToki_Base}/projects`,
+            method: 'GET'
+        })
+        const response = await this.requestManager.schedule(options, 1)
+        const $ = this.cheerio.load(response.data)
+        return this.parser.parseHomeSections($,sectionCallback, this)
+    }
+
+    async getMangaDetails(mangaId: string): Promise<Manga> {
+        const options = createRequestObject({
+            url: `${NewToki_Base}/mangas/${mangaId}`,
+            method: 'GET',
+        })
+        const response = await this.requestManager.schedule(options, 1)
+        const $ = this.cheerio.load(response.data)
+        return this.parser.parseMangaDetails($, mangaId,this)
+    }
+
+    async getChapters(mangaId: string): Promise<Chapter[]> {
+        const options = createRequestObject({
+            url: `${NewToki_Base}/mangas/${mangaId}`,
+            method: 'GET'
+        })
+        const response = await this.requestManager.schedule(options, 1)
+        const $ = this.cheerio.load(response.data)
+        return this.parser.parseChapters($, mangaId, this)
+    }
+
+    async getChapterDetails(mangaId: string, chapterId: string): Promise<ChapterDetails> {
+        const options = createRequestObject({
+            url: `${NewToki_Base}${chapterId}`,
+            method: 'GET'
+        })
+        const response = await this.requestManager.schedule(options, 1)
+        const $ = this.cheerio.load(response.data)
+ 
+        return this.parser.parseChapterDetails($, mangaId, chapterId)
+    }
+
+    async getSearchResults(_query: SearchRequest, _metadata: any): Promise<PagedResults> {
+        return createPagedResults({
+            results: [],
+        })
+    }
 }
