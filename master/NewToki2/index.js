@@ -915,7 +915,7 @@ __exportStar(require("./SearchFilter"), exports);
 },{"./Chapter":14,"./ChapterDetails":15,"./Constants":16,"./DynamicUI":32,"./HomeSection":33,"./Languages":34,"./Manga":35,"./MangaTile":36,"./MangaUpdate":37,"./PagedResults":38,"./RawData":39,"./RequestHeaders":40,"./RequestInterceptor":41,"./RequestManager":42,"./RequestObject":43,"./ResponseObject":44,"./SearchField":45,"./SearchFilter":46,"./SearchRequest":47,"./SourceInfo":48,"./SourceManga":49,"./SourceStateManager":50,"./SourceTag":51,"./TagSection":52,"./TrackedManga":53,"./TrackedMangaChapterReadAction":54,"./TrackerActionQueue":55}],57:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Webtoons = exports.WebtoonsInfo = void 0;
+exports.NewToki2 = exports.WebtoonsInfo = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 const NewToki2Settings_1 = require("./NewToki2Settings");
 const NewToki2Parser_1 = require("./NewToki2Parser");
@@ -939,7 +939,7 @@ exports.WebtoonsInfo = {
         },
     ],
 };
-class Webtoons extends paperback_extensions_common_1.Source {
+class NewToki2 extends paperback_extensions_common_1.Source {
     constructor() {
         super(...arguments);
         this.parser = new NewToki2Parser_1.Parser();
@@ -1068,7 +1068,7 @@ class Webtoons extends paperback_extensions_common_1.Source {
         return this.parser.parseTags($);
     }
 }
-exports.Webtoons = Webtoons;
+exports.NewToki2 = NewToki2;
 
 },{"./NewToki2Parser":58,"./NewToki2Settings":59,"paperback-extensions-common":13}],58:[function(require,module,exports){
 "use strict";
