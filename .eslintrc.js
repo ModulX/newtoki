@@ -21,6 +21,10 @@ module.exports = {
             'error',
             4
         ],
+        'linebreak-style': [
+            'error',
+            'unix'
+        ],
         'quotes': [
             'error',
             'single'
@@ -31,6 +35,10 @@ module.exports = {
         ],
         'prefer-arrow-callback': 'error',
         'modules-newline/import-declaration-newline': 'error',
-        'modules-newline/export-declaration-newline': 'error'
+        'modules-newline/export-declaration-newline': 'error',
+        // These checks were disabled since there are `metadata: any` declarations in the codebase
+        // due to how metadata is handled in the Paperback app.
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
     }
 }

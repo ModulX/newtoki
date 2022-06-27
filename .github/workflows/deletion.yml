@@ -3,6 +3,7 @@ on:
   delete:
     branches:
       - '**'
+      - '!main'
 jobs:
   delete:
     if: github.event.ref_type == 'branch'
@@ -11,7 +12,6 @@ jobs:
       - name: Clean up
         run: |
           echo "Clean up for branch ${{ github.event.ref }}"
-
       - name: Checkout Branch
         uses: actions/checkout@v2
 
