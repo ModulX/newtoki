@@ -501,17 +501,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TCBScans = exports.TCBScansInfo = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 const NewTokiParser_1 = require("./NewTokiParser");
-const NewToki_Base = 'https://onepiecechapters.com';
+const NewToki_Base = 'https://newtoki143.com';
 exports.TCBScansInfo = {
     author: 'SATAN',
-    description: 'Extension that pulls manga from onepiecechapters.com',
+    description: 'Extension that pulls webtoon from NewToki',
     icon: 'icon.png',
-    name: 'TCB Scans',
-    version: '1.0.3',
+    name: 'NewToki',
+    version: '1.0.0',
     authorWebsite: 'https://github.com/ModulX',
     websiteBaseURL: NewToki_Base,
     contentRating: paperback_extensions_common_1.ContentRating.EVERYONE,
-    language: paperback_extensions_common_1.LanguageCode.ENGLISH,
+    language: paperback_extensions_common_1.LanguageCode.KOREAN,
 };
 class TCBScans extends paperback_extensions_common_1.Source {
     constructor() {
