@@ -44,7 +44,7 @@ export const WebtoonsInfo: SourceInfo = {
     ],
 }
 
-export class Webtoons extends Source {
+export class NewToki2 extends Source {
 
     parser = new Parser()
 
