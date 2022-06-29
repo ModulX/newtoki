@@ -655,7 +655,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./base"), exports);
 __exportStar(require("./models"), exports);
 
-},{"./base":12,"./models":56}],14:[function(require,module,exports){
+},{"./base":12,"./models":55}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 
@@ -816,8 +816,6 @@ arguments[4][14][0].apply(exports,arguments)
 },{"dup":14}],45:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
 },{"dup":14}],46:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],47:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SearchOperator = void 0;
@@ -827,7 +825,7 @@ var SearchOperator;
     SearchOperator["OR"] = "OR";
 })(SearchOperator = exports.SearchOperator || (exports.SearchOperator = {}));
 
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentRating = void 0;
@@ -841,11 +839,11 @@ var ContentRating;
     ContentRating["ADULT"] = "ADULT";
 })(ContentRating = exports.ContentRating || (exports.ContentRating = {}));
 
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
+arguments[4][14][0].apply(exports,arguments)
+},{"dup":14}],49:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
 },{"dup":14}],50:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],51:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TagType = void 0;
@@ -863,15 +861,15 @@ var TagType;
     TagType["RED"] = "danger";
 })(TagType = exports.TagType || (exports.TagType = {}));
 
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
+arguments[4][14][0].apply(exports,arguments)
+},{"dup":14}],52:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
 },{"dup":14}],53:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
 },{"dup":14}],54:[function(require,module,exports){
 arguments[4][14][0].apply(exports,arguments)
 },{"dup":14}],55:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14}],56:[function(require,module,exports){
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -910,9 +908,8 @@ __exportStar(require("./TrackedMangaChapterReadAction"), exports);
 __exportStar(require("./TrackerActionQueue"), exports);
 __exportStar(require("./SearchField"), exports);
 __exportStar(require("./RawData"), exports);
-__exportStar(require("./SearchFilter"), exports);
 
-},{"./Chapter":14,"./ChapterDetails":15,"./Constants":16,"./DynamicUI":32,"./HomeSection":33,"./Languages":34,"./Manga":35,"./MangaTile":36,"./MangaUpdate":37,"./PagedResults":38,"./RawData":39,"./RequestHeaders":40,"./RequestInterceptor":41,"./RequestManager":42,"./RequestObject":43,"./ResponseObject":44,"./SearchField":45,"./SearchFilter":46,"./SearchRequest":47,"./SourceInfo":48,"./SourceManga":49,"./SourceStateManager":50,"./SourceTag":51,"./TagSection":52,"./TrackedManga":53,"./TrackedMangaChapterReadAction":54,"./TrackerActionQueue":55}],57:[function(require,module,exports){
+},{"./Chapter":14,"./ChapterDetails":15,"./Constants":16,"./DynamicUI":32,"./HomeSection":33,"./Languages":34,"./Manga":35,"./MangaTile":36,"./MangaUpdate":37,"./PagedResults":38,"./RawData":39,"./RequestHeaders":40,"./RequestInterceptor":41,"./RequestManager":42,"./RequestObject":43,"./ResponseObject":44,"./SearchField":45,"./SearchRequest":46,"./SourceInfo":47,"./SourceManga":48,"./SourceStateManager":49,"./SourceTag":50,"./TagSection":51,"./TrackedManga":52,"./TrackedMangaChapterReadAction":53,"./TrackerActionQueue":54}],56:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Webtoons = exports.WebtoonsInfo = void 0;
@@ -924,7 +921,7 @@ const WEBTOONS_MOBILE_DOMAIN = 'https://m.webtoons.com';
 const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.124 Safari/537.36 Edg/102.0.1245.44';
 let langString = 'en'; // Only used for 'getMangaShareUrl' function
 exports.WebtoonsInfo = {
-    version: '2.1.1',
+    version: '2.1.2',
     name: 'Webtoons',
     description: 'Extension that pulls comics from Webtoons.',
     author: 'btylerh7',
@@ -1070,7 +1067,7 @@ class Webtoons extends paperback_extensions_common_1.Source {
 }
 exports.Webtoons = Webtoons;
 
-},{"./WebtoonsParser":58,"./WebtoonsSettings":59,"paperback-extensions-common":13}],58:[function(require,module,exports){
+},{"./WebtoonsParser":57,"./WebtoonsSettings":58,"paperback-extensions-common":13}],57:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parser = void 0;
@@ -1362,7 +1359,7 @@ class Parser {
 }
 exports.Parser = Parser;
 
-},{"entities":7,"paperback-extensions-common":13}],59:[function(require,module,exports){
+},{"entities":7,"paperback-extensions-common":13}],58:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contentSettings = exports.getLanguages = exports.WTLanguages = void 0;
@@ -1478,5 +1475,5 @@ const contentSettings = (stateManager) => {
 };
 exports.contentSettings = contentSettings;
 
-},{}]},{},[57])(57)
+},{}]},{},[56])(56)
 });
