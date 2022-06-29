@@ -31,7 +31,7 @@ export const WebtoonsInfo: SourceInfo = {
     version: '2.1.3',
     name: 'Webtoons',
     description: 'Extension that pulls comics from Webtoons.',
-    author: 'btylerh7',
+    author: 'SATAN',
     authorWebsite: 'http://github.com/btylerh7',
     icon: 'logo.png',
     contentRating: ContentRating.EVERYONE,
