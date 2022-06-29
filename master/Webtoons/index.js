@@ -924,7 +924,7 @@ exports.WebtoonsInfo = {
     version: '2.1.3',
     name: 'Webtoons',
     description: 'Extension that pulls comics from Webtoons.',
-    author: 'btylerh7',
+    author: 'SATAN',
     authorWebsite: 'http://github.com/btylerh7',
     icon: 'logo.png',
     contentRating: paperback_extensions_common_1.ContentRating.EVERYONE,
