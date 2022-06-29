@@ -921,7 +921,7 @@ const WEBTOONS_MOBILE_DOMAIN = 'https://m.webtoons.com';
 const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.124 Safari/537.36 Edg/102.0.1245.44';
 let langString = 'en'; // Only used for 'getMangaShareUrl' function
 exports.WebtoonsInfo = {
-    version: '2.1.2',
+    version: '2.1.1',
     name: 'Webtoons',
     description: 'Extension that pulls comics from Webtoons.',
     author: 'btylerh7',
